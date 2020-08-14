@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUserIdToDiaries extends Migration
+class CreatePasswordResetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class AddUserIdToDiaries extends Migration
      */
     public function up()
     {
-        Schema::table('diaries', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
-            //外部キーに設定
-            $table->foreign('user_id')->references('id')->on('users');
+        Schema::create('password_resets', function (Blueprint $table) {
+            $table->string('email')->index();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -27,8 +27,6 @@ class AddUserIdToDiaries extends Migration
      */
     public function down()
     {
-        Schema::table('diaries', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('password_resets');
     }
 }
